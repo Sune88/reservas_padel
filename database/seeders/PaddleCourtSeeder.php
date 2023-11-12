@@ -37,16 +37,10 @@ class PaddleCourtSeeder extends Seeder
                 "price" => (rand(2 * 0.25, 99) + 2),
             ]);
 
-            foreach (range(9, 15) as $hour_am) {
+            foreach (range(9, 21) as $hour) {
                 ReservationSchedule::create([
                     "paddle_court_id" => $paddleCourt->id,
-                    "hour_bookable" => $hour_am.":00",
-                ]);
-            }
-            foreach (range(17, 21) as $hour_pm) {
-                ReservationSchedule::create([
-                    "paddle_court_id" => $paddleCourt->id,
-                    "hour_bookable" => $hour_pm.":00",
+                    "hour_bookable" => $hour.":00",
                 ]);
             }
 

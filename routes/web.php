@@ -4,7 +4,10 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaddleCourtController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +20,26 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/test', function(){
+    $date = "13-11-2023";
+    $paddleCourt = \App\Models\PaddleCourt::find(3);
+   // dd(Carbon::parse($date)->format('Y/m/d'));
+    $hoursBooked = array();
+    $paddleCourtReservtions = Booking::where("paddle_court_id",$paddleCourt->id)
+        ->where("date",Carbon::parse($date)->format('Y/m/d'))
+        ->get();
+    foreach($paddleCourtReservtions as $r){
+        $hour_sbooked = explode(":",$r->hour_start)[0];
+        $hour_ebooked = explode(":",$r->hour_end)[0];
+        foreach(range($hour_sbooked,$hour_ebooked) as $h){
+            $hoursBooked[].=$h.":00:00";
+        }
+    }
+    $allHourSchedule = $paddleCourt->resrvation_schedules->pluck('hour_bookable')->toArray();
+    $hour_in_free = array_diff($allHourSchedule,$hoursBooked);
+    return $hour_in_free;
+});
 
 Route::get('/', [HomeController::class,'index'])->name("home");
 
@@ -32,20 +55,18 @@ Route::get('/pista/{id}', [PaddleCourtController::class,'show'])->name("paddleCo
 
 
 Route::middleware('auth')->group(function () {
+    Route::post('/booking', [PaddleCourtController::class,'booking'])->name("paddleCourt.booking");
+    Route::post('/get-free-hour-paddle-court', [PaddleCourtController::class,'showFreeHours'])->name("showFreeHours");
 
-    /*#Carrito
-    Route::get('/cart', [CartController::class, 'index'])->name('index.cart');
-    Route::post('/add-cart', [CartController::class, 'store'])->name('add.cart');
-    Route::post('/update-cart', [CartController::class, 'update'])->name('reload.cart');
-    Route::post('/delete-cart', [CartController::class, 'destroy'])->name('destroy.item.cart');
-
-    #Pedidos
-    Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+    #Pay
+    Route::post('charge',[PaymentController::class,'charge'])->name('charge');
+    Route::get('success',[PaymentController::class,'success']);
+    Route::get('error', [PaymentController::class,'error']);
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');*/
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

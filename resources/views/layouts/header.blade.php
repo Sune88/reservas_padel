@@ -25,6 +25,16 @@
                     @guest
                         <li><a href="{{route('login')}}">Entrar</a></li>
                     @endguest
+                    @auth
+                        <li><a href="#">Perfil</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="
+                                event.preventDefault();
+                                document.getElementById('logout-form').submit();
+                                " >Cerrar sesion</a></li>
+                        <form id="logout-form" action="{{route('logout')}}" method="post">
+                            @csrf
+                        </form>
+                    @endauth
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

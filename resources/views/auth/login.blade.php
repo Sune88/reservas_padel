@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12" style="text-align: center">
-                <h1>Login</h1>
+                <h1>Incia sesión</h1>
             </div>
             <div class="col-md-6" style="margin: auto">
                 <form method="POST" action="{{ route('login') }}">
