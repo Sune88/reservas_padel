@@ -18,6 +18,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
+            'bookings' => $request->user()->bookings,
         ]);
     }
 
@@ -26,15 +27,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($request->avatar) {
+            $nombreArchivo = Auth::id().time(). $request->file('avatar')->extension();
+            $rutaAvatar = $request->file('avatar')->storeAs('avatar', $nombreArchivo, 'public');
+            Auth::user()->avatar = $rutaAvatar;
+        }
+        if($request->password){
+            Auth::user()->password=$request->password;
         }
 
-        $request->user()->save();
+        Auth::user()->name=$request->name;
+        Auth::user()->lastname=$request->lastname;
+        Auth::user()->email=$request->email;
+        Auth::user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('status', 'Perfil actualizado correctamente.');
     }
 
     /**

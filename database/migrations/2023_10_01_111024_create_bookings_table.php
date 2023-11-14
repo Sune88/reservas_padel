@@ -23,7 +23,6 @@ return new class extends Migration
                 ->constrained("booking_states")
                 ->onDelete("cascade");
             $table->date("date");
-
             $table->time("hour_start");
             $table->time("hour_end");
             $table->decimal("total_amount",10,2);

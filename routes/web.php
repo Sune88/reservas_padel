@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaddleCourtController;
@@ -47,10 +48,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-## Psitas
+## Pistas
 
 Route::get('/pistas', [PaddleCourtController::class,'index'])->name("paddleCourt.index");
 Route::get('/pista/{id}', [PaddleCourtController::class,'show'])->name("paddleCourt.show");
+
+## Contacto
+Route::get('/contacto', [ContactController::class,'index'])->name("contact.index");
+Route::post('/contacto', [ContactController::class,'send'])->name("contact.send");
 
 
 
@@ -64,9 +69,16 @@ Route::middleware('auth')->group(function () {
     Route::get('error', [PaymentController::class,'error']);
 
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/perfil', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+Route::group(['middleware' => 'admin'], function () {
+    // Rutas que solo pueden ser accedidas por administradores
+    Route::get('/dashboard', function(){
+        dd('dentro');
+    })->name('admin.dashboard');
+    // ... otras rutas administrativas ...
 });
 
 require __DIR__.'/auth.php';

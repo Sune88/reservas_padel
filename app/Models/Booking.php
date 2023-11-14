@@ -11,10 +11,10 @@ class Booking extends Model
     protected $table = "bookings";
     protected $fillable = [
         "user_id","paddle_court_id","booking_state_id",
-        "hour_start","hour_end","date","paid","total_amount"
+        "hour_start","hour_end","date","paid","total_amount","payment_id"
     ];
 
-    public function booking_state(){
+    public function state(){
         return $this->belongsTo(BookingState::class,"booking_state_id","id");
     }
     public function user(){

@@ -21,12 +21,16 @@
                     <li><a href="{{route('paddleCourt.index')}}">Pistas</a></li>
                     <li><a href="#">Precios</a></li>
                     <li><a href="#">Valoraciones</a></li>
-                    <li><a href="#">Contacto</a></li>
+                    <li><a href="{{route('contact.index')}}">Contacto</a></li>
                     @guest
                         <li><a href="{{route('login')}}">Entrar</a></li>
                     @endguest
                     @auth
-                        <li><a href="#">Perfil</a></li>
+                        @if(\Illuminate\Support\Facades\Auth::user()->rol_id==2)
+                            <li><a href="#">Administrar</a></li>
+                        @else
+                        <li><a href="{{route('profile.edit')}}">Perfil</a></li>
+                        @endif
                         <li><a class="dropdown-item" href="#" onclick="
                                 event.preventDefault();
                                 document.getElementById('logout-form').submit();

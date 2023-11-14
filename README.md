@@ -17,4 +17,5 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
  - `php artisan key:generate`
  - `composer install`
  - `php artisan migrate --seed`
+ - `php artisan storage:link`
 

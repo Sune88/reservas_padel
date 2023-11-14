@@ -68,20 +68,20 @@
         @foreach($paddle_courts as $pc)
             <div class="item col-md-4">
                 <div class="blok-read-sm">
-                    <a href="#" class="hover-image">
+                    <a href="{{route('paddleCourt.show',$pc->id)}}" class="hover-image">
                         <img src="{{$pc->image}}" alt="image">
                         <span class="layer-block">{{$pc->name}}</span>
                     </a>
                     <div class="info-text visible-md visible-lg">
-                        <span class="left-text">45 Min</span>
-                        <span class="right-text">Intermediate</span>
+                        <span class="left-text">1 hora</span>
+                        <span class="right-text">{{$pc->price}}€</span>
                     </div>
                     <div class="content-block">
                         <span class="point-caption bg-blue-point"></span>
                         <span class="bottom-line bg-blue-point"></span>
-                        <h4>Cricket Coach</h4>
+                        <h4>{{$pc->name}}</h4>
                         <p>{{\Illuminate\Support\Str::limit($pc->description,200) }}</p>
-                        <div class="button-main bg-fio-point">Reserva ya</div>
+                        <a href="{{route('paddleCourt.show',$pc->id)}}" class="button-main bg-fio-point">Reserva ya</a>
                         <div class="like-wrap">
                             <a href="#"><i class="fa fa-comment col-green"></i></a><span>{{count($pc->comments)}}</span>
                         </div>
@@ -112,111 +112,6 @@
     </section>
     <!-- end Countdown -->
 
-
-    <!-- Pricing Table -->
-    <section id="menu-price" class="container price generic">
-        <h2 id="fittext2" class="title-start">Pricing</h2>
-        <p class="sub-title">Most Affordable pricing</p>
-
-        <div class="pricing-table-col col-md-4">
-            <ul>
-                <li class="head">
-                    <h2>Basic</h2>
-                    <p class="price"><span>$29.90</span> /month</p>
-                </li>
-                <li>
-                    Pro Coach
-                </li>
-                <li>
-                    No support
-                </li>
-                <li>
-                    Sports Materials Support
-                </li>
-                <li>
-                    10 Video Files
-                </li>
-                <li>
-                    Chance to play around the world
-                </li>
-                <li>
-                    Live Interview with players
-                </li>
-
-                <li class="pricing-footer">
-                    <a href="#" class="btn-medium empty">
-                        <span>Sign up</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="pricing-table-col featured-price col-md-4">
-
-            <ul>
-                <li class="head">
-                    <h2>Professional</h2>
-                    <p class="price"><span>$29.90</span> /month</p>
-                </li>
-                <li>
-                    Pro Coach
-                </li>
-                <li>
-                    No support
-                </li>
-                <li>
-                    Sports Materials Support
-                </li>
-                <li>
-                    10 Video Files
-                </li>
-                <li>
-                    Chance to play around the world
-                </li>
-                <li>
-                    Live Interview with players
-                </li>
-
-                <li class="pricing-footer">
-                    <a href="#" class="btn-medium empty">
-                        <span>Sign up</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="pricing-table-col col-md-4">
-            <ul>
-                <li class="head">
-                    <h2>Basic</h2>
-                    <p class="price"><span>$29.90</span> /month</p>
-                </li>
-                <li>
-                    Pro Coach
-                </li>
-                <li>
-                    No support
-                </li>
-                <li>
-                    Sports Materials Support
-                </li>
-                <li>
-                    10 Video Files
-                </li>
-                <li>
-                    Chance to play around the world
-                </li>
-                <li>
-                    Live Interview with players
-                </li>
-
-                <li class="pricing-footer">
-                    <a href="#" class="btn-medium empty">
-                        <span>Sign up</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </section>
-    <!-- end Pricing Table -->
     <!-- Testimonials -->
     <section id="menu-testimonial" class="testimonial">
         <div class="container">
@@ -271,60 +166,5 @@
     </section>
     <!-- end Testimonials -->
 
-    <!-- Contact-->
-    <section id="menu-contact" class="container contact generic">
-        <h2 id="fittext2" class="title-start">Contact us</h2>
-        <p class="sub-title">Contact us for everything you need..</p>
-        <div class="map col-md-6 col-sm-6 col-xs-12">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2825.211958629328!2d91.83379900000003!3d24.909438007883935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x37505558dd0be6a1%3A0x65c7e47c94b6dc45!2sTechnext!5e1!3m2!1sen!2s!4v1425297675833"
-                width="100%" height="354" frameborder="0" style="border:0">
-            </iframe>
-        </div>
-        <div class="contact-form-full col-md-6 col-sm-6 col-xs-12">
-            <div class="inner contact">
-                <!-- Form Area -->
-                <div class="contact-form">
-                    <!-- Form -->
-                    <form id="contact-us" method="post" action="#">
-                        <!-- Left Inputs -->
-                        <div class="col-xs-12 wow animated slideInLeft" data-wow-delay=".5s">
-                            <!-- Name -->
-                            <input type="text" name="name" id="name" required="required" class="form"
-                                   placeholder="Name"/>
-                            <!-- Email -->
-                            <input type="email" name="mail" id="mail" required="required" class="form"
-                                   placeholder="Email"/>
-
-                        </div><!-- End Left Inputs -->
-                        <!-- Right Inputs -->
-                        <div class="col-xs-12 wow animated slideInRight" data-wow-delay=".5s">
-                            <!-- Message -->
-                            <textarea name="message" id="message" class="form textarea"
-                                      placeholder="Message"></textarea>
-                        </div><!-- End Right Inputs -->
-                        <!-- Bottom Submit -->
-                        <div class="relative fullwidth col-xs-12">
-                            <!-- Send Button -->
-                            <button type="submit" id="submit" name="submit" class="form-btn semibold">Send Message
-                            </button>
-                        </div><!-- End Bottom Submit -->
-                        <!-- Clear -->
-                        <div class="clear"></div>
-                    </form>
-
-                    <!-- Your Mail Message -->
-                    <div class="mail-message-area">
-                        <!-- Message -->
-                        <div class="alert gray-bg mail-message not-visible-message">
-                            <strong>Thank You !</strong> Your email has been delivered.
-                        </div>
-                    </div>
-
-                </div><!-- End Contact Form Area -->
-            </div><!-- End Inner -->
-        </div>
-    </section>
-    <!-- end Contact -->
     </div>
 @endsection
