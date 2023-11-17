@@ -165,7 +165,12 @@
                                     <td>{{$booking->state->name}}</td>
                                     <td>
                                         @if($booking->paid == 0 && $booking->booking_state_id == 1)
-                                            <a class="btn btn-warning">Pagar reserva</a>
+                                            <form action="{{route('charge')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="booking_id" value="{{$booking->id}}">
+                                                <button type="submit" class="btn btn-warning">Pagar reserva</button>
+                                            </form>
+
                                             <a href="{{route('cancel.booking',$booking->id)}}" class="btn btn-danger">Cancelar reserva</a>
                                         @else
                                             <a class="btn btn-info valorar_link" data-paddle_court_id="{{$booking->paddle_court->id}}" data-toggle="modal" data-target="#valorar_modal" class="btn btn-primary">Valorar</a>
