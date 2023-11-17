@@ -208,7 +208,7 @@ h1.title-head.text-center.white {
   text-transform: uppercase;
   padding: 14px;
     background-color: black;
-    opacity: 0.7;
+    opacity: 0.95;
 }
 h2.sub-title-head.text-center.white {
       background: rgba(59, 36, 145, 0.77);
@@ -239,7 +239,7 @@ p.sub-title-head.text-center.white {
   font-size: 22px;
   letter-spacing: 1px;
     background-color: black;
-    opacity: 0.7;
+    opacity: 0.95;
 }
 /*slider*/
 .slider {
@@ -454,7 +454,7 @@ p.sub-title {
 .like-wrap
 {
     position: relative;
-    float: left;
+    float: right;
     padding-left: 10px;
     padding-top: 10px;
 }

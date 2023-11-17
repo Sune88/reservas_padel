@@ -21,4 +21,8 @@ class ContactController extends Controller
         ]);
         return Redirect::route('contact.index')->with('status','Mensaje enviado correctamente.');
     }
+    public function destroy($id){
+        Contact::destroy($id);
+        return redirect()->back()->with('status','Contacto eliminado correctamente.');
+    }
 }

@@ -27,6 +27,9 @@ class PaymentController extends Controller
         if($booking->user_id != Auth::id()){
             return redirect()->back();
         }
+        if($booking->paid == 1){
+            return redirect()->back()->with('warning', 'Esta reserva ya ha sido pagada');;
+        }
         $response = $this->gateway->purchase(array(
             'amount' => $booking->total_amount,
             'currency' => env('PAYPAL_CURRENCY'),
@@ -72,20 +75,20 @@ class PaymentController extends Controller
                 $booking->booking_state_id = $state->id;
                 $booking->paid = 1;
                 $booking->save();
-                return redirect()->route('home')
-                    ->with('success', 'Pedido realizado correctamente');
+                return redirect()->route('profile.edit')
+                    ->with('status', 'Pago realizado correctamente');
 
             } else {
                 return $response->getMessage();
             }
         } else {
-            return redirect()->route('home')->with('error', 'Pago cancelado.');
+            return redirect()->route('profile.edit')->with('error', 'Pago cancelado.');
         }
     }
 
 
     public function error()
     {
-        return redirect()->route('home')->with('error', 'Pago cancelado.');
+        return redirect()->route('profile.edit')->with('error', 'Pago cancelado.');
     }
 }

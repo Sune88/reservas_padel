@@ -14,7 +14,8 @@ class PaddleCourt extends Model
     public function resrvation_schedules(){
         return $this->hasMany(ReservationSchedule::class, "paddle_court_id");
     }
-    public function comments(){
+    public function valorations(){
         return $this->hasMany(ValorationsCourt::class,"paddle_court_id");
     }
+
 }

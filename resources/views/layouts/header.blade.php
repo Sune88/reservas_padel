@@ -16,18 +16,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="{{route('home')}}">Home</a></li>
-                    <li><a href="#">Sobre nosotros</a></li>
+                    <li class="active"><a href="{{route('home')}}">Inicio</a></li>
                     <li><a href="{{route('paddleCourt.index')}}">Pistas</a></li>
-                    <li><a href="#">Precios</a></li>
-                    <li><a href="#">Valoraciones</a></li>
+                    <li><a href="{{route('rules')}}">Reglas</a></li>
                     <li><a href="{{route('contact.index')}}">Contacto</a></li>
                     @guest
                         <li><a href="{{route('login')}}">Entrar</a></li>
                     @endguest
                     @auth
                         @if(\Illuminate\Support\Facades\Auth::user()->rol_id==2)
-                            <li><a href="#">Administrar</a></li>
+                            <li><a href="{{route('admin.dashboard')}}">Administrar</a></li>
                         @else
                         <li><a href="{{route('profile.edit')}}">Perfil</a></li>
                         @endif

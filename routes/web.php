@@ -1,15 +1,20 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaddleCourtController;
+use App\Http\Controllers\PaddleCourtRateController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Models\Booking;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,26 +28,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function(){
-    $date = "13-11-2023";
-    $paddleCourt = \App\Models\PaddleCourt::find(3);
-   // dd(Carbon::parse($date)->format('Y/m/d'));
-    $hoursBooked = array();
-    $paddleCourtReservtions = Booking::where("paddle_court_id",$paddleCourt->id)
-        ->where("date",Carbon::parse($date)->format('Y/m/d'))
-        ->get();
-    foreach($paddleCourtReservtions as $r){
-        $hour_sbooked = explode(":",$r->hour_start)[0];
-        $hour_ebooked = explode(":",$r->hour_end)[0];
-        foreach(range($hour_sbooked,$hour_ebooked) as $h){
-            $hoursBooked[].=$h.":00:00";
-        }
+    $images = [
+        "https://www.padeladdict.com/wp-content/uploads/2023/06/la-guia-definitiva-para-mantener-pistas-de-padel-cubiertas-portada-1068x580.jpg",
+        "https://ucjcsportsclub.es/wp-content/uploads/2015/03/padel3-1024x780.jpg",
+        "https://allforpadel.com/img/cms/pistas/fx2-1.jpg",
+    ];
+    Storage::delete("public/images_paddle_courts");
+    $images_storage = array();
+    foreach($images as $image){
+        $imageData = file_get_contents($image);
+
+        $nombreArchivo = 'imagen_' . uniqid() . '.jpg';;
+        Storage::put("public/images_paddle_courts/{$nombreArchivo}", $imageData);
+
+        array_push($images_storage,"images_paddle_courts/{$nombreArchivo}");
     }
-    $allHourSchedule = $paddleCourt->resrvation_schedules->pluck('hour_bookable')->toArray();
-    $hour_in_free = array_diff($allHourSchedule,$hoursBooked);
-    return $hour_in_free;
+    dd($images_storage);
 });
 
 Route::get('/', [HomeController::class,'index'])->name("home");
+Route::get('/reglas', [HomeController::class,'rules'])->name("rules");
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -60,7 +65,9 @@ Route::post('/contacto', [ContactController::class,'send'])->name("contact.send"
 
 
 Route::middleware('auth')->group(function () {
-    Route::post('/booking', [PaddleCourtController::class,'booking'])->name("paddleCourt.booking");
+    Route::post('/booking', [BookingController::class,'store'])->name("paddleCourt.booking");
+    Route::get('/booking-cancel/{booking_id}', [BookingController::class,'cancel'])->name("cancel.booking");
+    Route::post('/paddlecourt-rate', [PaddleCourtRateController::class,'store'])->name("rate.paddlecourt");
     Route::post('/get-free-hour-paddle-court', [PaddleCourtController::class,'showFreeHours'])->name("showFreeHours");
 
     #Pay
@@ -68,17 +75,28 @@ Route::middleware('auth')->group(function () {
     Route::get('success',[PaymentController::class,'success']);
     Route::get('error', [PaymentController::class,'error']);
 
-
+    #Perfil
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/perfil', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/perfil', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::group(['middleware' => 'admin'], function () {
     // Rutas que solo pueden ser accedidas por administradores
-    Route::get('/dashboard', function(){
-        dd('dentro');
-    })->name('admin.dashboard');
-    // ... otras rutas administrativas ...
+    Route::get('/dashboard',[HomeController::class,'admin'] )->name('admin.dashboard');
+    Route::get('/contact-destroy/{contact_id}',[ContactController::class,'destroy'] )->name('contact.destroy');
+    Route::get('/booking-destroy/{booking_id}',[BookingController::class,'destroy'] )->name('booking.destroy');
+
+    //users
+    Route::post('/user-create',[UserController::class,'store'] )->name('user.store');
+    Route::get('/user-destroy/{user_id}',[UserController::class,'destroy'] )->name('user.destroy');
+
+    //paddle courts
+    Route::post('/paddle-court-create',[PaddleCourtController::class,'store'] )->name('paddlecourt.store');
+    Route::get('/paddle-court-destroy/{paddle_court_id}',[PaddleCourtController::class,'destroy'] )->name('paddlecourt.destroy');
+    Route::get('/paddle-court-edit/{paddle_court_id}',[PaddleCourtController::class,'edit'] )->name('paddlecourt.edit');
+    Route::post('/paddle-court-update',[PaddleCourtController::class,'update'] )->name('paddlecourt.update');
+
+
 });
 
 require __DIR__.'/auth.php';

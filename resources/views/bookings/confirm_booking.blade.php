@@ -4,10 +4,10 @@
     <div class="container mt-5">
         <div class="card p-6 mb-6">
             <div class="row">
-                <div class="col-12 col-md-12" style="text-align: center">
+                <div class="col-12 col-md-12" style="text-align: center;margin: auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Confirmacion de la reserva</h4>
+                            <h3>Confirmación de la reserva</h3>
                         </div>
 
                         <div class="card-body">

@@ -17,3 +17,4 @@
 <script type="text/javascript">
     $("#fittext3,#fittext2").fitText(.95, { minFontSize: '35px', maxFontSize: '95px' });
 </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous"></script>

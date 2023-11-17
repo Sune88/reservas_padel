@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reservation_schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId("paddle_court_id")
-            ->constrained("paddle_courts");
+            ->constrained("paddle_courts")->onDelete("cascade");
             $table->time("hour_bookable");
             $table->timestamps();
         });

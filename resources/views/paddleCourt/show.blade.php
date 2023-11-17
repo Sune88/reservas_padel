@@ -7,6 +7,9 @@
             top: 15px;
             left: -25px;
         }
+        .star_checked{
+            color: orange;
+        }
     </style>
     <section id="menu-information" class="container information">
         <div class="card p-6 mb-6">
@@ -15,7 +18,7 @@
                     @if(session('error'))
                         <div class="alert alert-danger">
                             <ul>
-                                    <li style="text-align: center">{{session()->get('error')}}</li>
+                                <li style="text-align: center">{{session()->get('error')}}</li>
                             </ul>
                         </div>
                     @endif
@@ -30,7 +33,7 @@
                     @endif
                 </div>
                 <div class="col-12 col-md-6" style="text-align: center">
-                    <img style="height: auto;border-radius: 5px" src="{{$paddleCourt->image}}">
+                    <img style="height: auto;border-radius: 5px" src="{{asset('storage/' . $paddleCourt->image)}}">
                 </div>
                 <div class="col-12 col-md-6">
                     <h1>{{$paddleCourt->name}}</h1>
@@ -58,9 +61,10 @@
                                         <label>Hora de entrada:</label>
                                         <div class="input-group" style="display: flex">
 
-                                            <select required class="form-control" id="hour_start_input" name="hour_start">
+                                            <select required class="form-control" id="hour_start_input"
+                                                    name="hour_start">
                                                 <option selected
-                                                    value="">Selecciona una hora de entrada
+                                                        value="">Selecciona una hora de entrada
                                                 </option>
                                                 @foreach($paddleCourt->resrvation_schedules as $reservationSchedule)
                                                     <option
@@ -86,13 +90,52 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <button type="submit" id="btn_add_cart" data-product_id="{{$paddleCourt->id}}"
-                                           class="btn btn-primary">Hacer
-                                            reserva </button>
+                                                class="btn btn-primary">Hacer
+                                            reserva
+                                        </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12" >
+                    <h1>Valoraciones</h1>
+
+                </div>
+                <div class="col-sm-12 col-md-6" style="margin: auto">
+                    <div class="response-table" >
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                            <th>Usuario</th>
+                            <th>Comentario</th>
+                            <th>Puntuación</th>
+                            </thead>
+                            <tbody>
+                            @foreach($paddleCourt->valorations as $valoration)
+                            <tr>
+                                <td>{{$valoration->user->name}}</td>
+                                <td>{{$valoration->comment}}</td>
+                                <td>
+                                    @php
+                                     $not_rated = 5-$valoration->rate;
+                                    @endphp
+                                    @foreach(range(1,$valoration->rate) as $check)
+                                        <span class="fa fa-star star_checked"></span>
+                                    @endforeach
+                                    @if($not_rated>0)
+                                        @foreach(range(1,$not_rated) as $not_check)
+                                                <span class="fa fa-star"></span>
+                                        @endforeach
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -104,17 +147,17 @@
 @section("javascript")
     <script>
         const div_free_hours = document.getElementById('free_hours_date')
-        document.getElementById('date_input').addEventListener('change',(e)=>{
-            div_free_hours.innerHTML="";
+        document.getElementById('date_input').addEventListener('change', (e) => {
+            div_free_hours.innerHTML = "";
             var paddle_court_id = @json($paddleCourt->id);
             var url = '{{route('showFreeHours')}}'
             const data = {
                 date: e.currentTarget.value,
                 paddle_court_id: paddle_court_id,
-                _token : '{{csrf_token()}}'
+                _token: '{{csrf_token()}}'
             };
             console.log(data)
-            fetch(url,{
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,27 +165,27 @@
                 },
                 body: JSON.stringify(data),
             })
-             .then(response => response.json())
-             .then(data => {
+                .then(response => response.json())
+                .then(data => {
                     var mensaje = `<p class="ml-4">Horas de entrada disponibles para esta fecha: `;
-                    if(data.count==0){
-                        mensaje+=`No quedan horas disponibles</p>`
+                    if (data.count == 0) {
+                        mensaje += `No quedan horas disponibles</p>`
                         div_free_hours.innerHTML = mensaje;
                         return;
                     }
                     var count = 1;
-                    for(hour in data.free_hours){
+                    for (hour in data.free_hours) {
                         var original_hour = data.free_hours[hour].split(":")
-                        if(count<data.count){
-                            mensaje+=`${original_hour[0]+":"+original_hour[1]} - `
+                        if (count < data.count) {
+                            mensaje += `${original_hour[0] + ":" + original_hour[1]} - `
                             count++;
-                        }else{
-                            mensaje+=`${original_hour[0]+":"+original_hour[1]}`
+                        } else {
+                            mensaje += `${original_hour[0] + ":" + original_hour[1]}`
                         }
 
 
                     }
-                    mensaje+=`</p>`;
+                    mensaje += `</p>`;
                     div_free_hours.innerHTML = mensaje;
                 })
                 .catch(error => {
@@ -157,19 +200,19 @@
         //console.log(array_hours)
         document.getElementById('hour_start_input').addEventListener('input', function () {
 
-            if(this.value==""){
+            if (this.value == "") {
                 return;
             }
-            var value_selected = parseInt(this.value)+1;
+            var value_selected = parseInt(this.value) + 1;
             var input_hour_end = document.getElementById('hour_end_input')
             input_hour_end.innerHTML = ''
-            var newOptions =  array_hours.filter(function(hora) {
+            var newOptions = array_hours.filter(function (hora) {
                 return hora.id >= value_selected;
             });
             for (var i = 0; i < newOptions.length; i++) {
                 var option = document.createElement('option');
                 option.value = newOptions[i].id;
-                option.text = (newOptions[i].hour_bookable).split(':')[0]+':'+(newOptions[i].hour_bookable).split(':')[1]; // Asigna el texto de la opción
+                option.text = (newOptions[i].hour_bookable).split(':')[0] + ':' + (newOptions[i].hour_bookable).split(':')[1]; // Asigna el texto de la opción
                 input_hour_end.add(option);
             }
         });

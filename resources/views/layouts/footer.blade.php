@@ -1,33 +1,30 @@
 <!-- Footer -->
 <section class="footer">
     <div class="footer-section container">
-        <div class="item-footer col-sm-6 col-xs-12 col-md-3">
-            <a class="navbar-logobrand" href="#">Sports Coach</a>
+        <div class="item-footer col-sm-6 col-xs-12 col-md-4" style="display: grid">
+            <a class="navbar-logobrand" style="text-align: center;" href="{{route('home')}}">Padel Sport</a>
+            <img style="width: 100px;height: 100px;margin:auto" src="{{asset('img/logo.jpg')}}">
         </div>
-        <div class="item-footer col-sm-6 col-xs-12 col-md-3">
-            <h4 class="footer-title">Top Links</h4>
-            <ul class="gold links-footer">
-                <li>Home</li>
-                <li>About us</li>
-                <li>Serivices</li>
-                <li> Contact</li>
+        <div class="item-footer col-sm-6 col-xs-12 col-md-4">
+            <h4 class="footer-title">Enlaces de interés</h4>
+            <ul class="gold" >
+                <li><a style="color: white" href="{{route('rules')}}">Reglas</a></li>
+                <li><a  style="color: white" href="{{route('paddleCourt.index')}}">Pistas</a></li>
+                <li><a style="color: white" href="{{route('contact.index')}}">Contacto</a></li>
+                @auth
+                    <li><a style="color: white" href="{{route('profile.edit')}}">Perfil</a></li>
+                @elseguest
+                    <li><a style="color: white" href="{{route('login')}}">Entrar</a></li>
+                @endauth
             </ul>
         </div>
-        <div class="item-footer col-sm-6 col-xs-12 col-md-3">
-            <h4 class="footer-title">Category</h4>
-            <ul class="gold links-footer">
-                <li>Football</li>
-                <li>Cricket</li>
-                <li>Baseball</li>
-                <li>Others</li>
-            </ul>
-        </div>
-        <div class="item-footer col-sm-6 col-xs-12 col-md-3">
-            <h4 class="footer-title footer-tags">Tags</h4>
-            <span class="fa fa-tag gold"> Cricket</span><span class="fa fa-tag gold"> Cricket</span><span class="fa fa-tag gold"> Cricket</span><br /><span class="fa fa-tag gold"> Cricket</span><span class="fa fa-tag gold"> Cricket</span><span class="fa fa-tag gold"> Cricket</span>
+        <div class="item-footer col-sm-6 col-xs-12 col-md-4" >
+            <h4 class="footer-title footer-tags">Contacto</h4>
+            <p style="color: white!important">C\Villa de Rota nº 15 - 6660011000</p>
+            <p style="color: white!important">Horario: 09:00 - 21:00 </p>
         </div>
     </div>
 </section>
 <section class="footer-bottom">
-    <p class="text-center copyright-text">&copy;Themewagon - All Rights Reserved</p>
+    <p class="text-center copyright-text">&copy;PadelSport - All Rights Reserved</p>
 </section>

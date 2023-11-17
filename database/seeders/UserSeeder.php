@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 "name"=>"User",
                 "lastname"=>"admin",
                 "rol_id"=>$rol_admin->id,
-                "avatar"=>asset('img/user_avatar.png'),
+                "avatar"=>"avatar/user_avatar.png",
                 "email"=>"admin@admin.com",
                 "password"=>Hash::make("password"),
         ]);
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 "lastname"=>"lastname ".$user,
                 "rol_id"=>$rol_user->id,
                 "email"=>"user".$user."@user.com",
-                "avatar"=>asset('img/user_avatar.png'),
+                "avatar"=>"avatar/user_avatar.png",
                 "password"=>Hash::make("password"),
             ]);
         }

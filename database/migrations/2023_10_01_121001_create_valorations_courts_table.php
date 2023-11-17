@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('valorations_courts', function (Blueprint $table) {
             $table->id();
             $table->foreignId("paddle_court_id")
-                ->constrained("paddle_courts");
+                ->constrained("paddle_courts")->onDelete("cascade");
             $table->foreignId("user_id")
-                ->constrained("users");
+                ->constrained("users")->onDelete("cascade");
             $table->text("comment");
             $table->decimal("rate",8,2);
             $table->timestamps();

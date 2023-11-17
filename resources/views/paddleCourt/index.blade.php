@@ -13,7 +13,7 @@
                             <div class="col-12 col-md-4 mb-4 mt-6">
                                 <div class="card">
                                     <div class="card-head">
-                                        <img style="object-fit: cover; width:100%; height: 230px" src="{{$pc->image}}">
+                                        <img style="object-fit: cover; width:100%; height: 230px" src="{{asset('storage/' . $pc->image)}}">
                                     </div>
                                     <div class="card-body">
                                         <p>{{$pc->name}}</p>
