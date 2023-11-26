@@ -11,8 +11,8 @@
             color: orange;
         }
     </style>
-    <section id="menu-information" class="container information">
-        <div class="card p-6 mb-6">
+    <section id="menu-information" class="container information" style="margin-top:50px">
+        <div class="card p-6 mb-6 mt-6">
             <div class="row">
                 <div class="col-12">
                     @if(session('error'))
@@ -33,7 +33,7 @@
                     @endif
                 </div>
                 <div class="col-12 col-md-6" style="text-align: center">
-                    <img style="height: auto;border-radius: 5px" src="{{asset('storage/' . $paddleCourt->image)}}">
+                    <img style="width:100%;height: auto;border-radius: 5px" src="{{asset('storage/' . $paddleCourt->image)}}">
                 </div>
                 <div class="col-12 col-md-6">
                     <h1>{{$paddleCourt->name}}</h1>
